@@ -26,7 +26,7 @@ If you already have an FTP server you can skip this part.  If not - here's how t
 
 ### CSV to JSON Azure Function
 
-Now that we have an FTP server to drop a [CSV](./example.csv), we need to write some Azure Functions to do two things:
+Now that we have an FTP server to drop a [CSV](https://raw.githubusercontent.com/jeffhollan/lab-serverless-email/master/example.csv), we need to write some Azure Functions to do two things:
 
 1. We need a Function to convert the CSV into a parsable format like JSON so we can iterate easily over each row and grab properties
 1. We want to generate a rich HTML email, so will use a seperate function for that
@@ -44,7 +44,7 @@ To get started, go back to your [Azure dashboard](https://portal.azure.com) and 
 
     You'll notice a simple example has been created.  This function can be called at anytime via the Function URL to invoke and compute.  In this case, we've already written some simple code to convert CSV to JSON.  You can [find it here](./csvfunction.csx) - feel free to copy and replace the code.
 
-7. Save it, and open the **Test** tab - paste in the contents of the [CSV Example](./example.csv) and **Run**
+7. Save it, and open the **Test** tab - paste in the contents of the [CSV Example](https://raw.githubusercontent.com/jeffhollan/lab-serverless-email/master/example.csv) and **Run**
 
     You should see the function processed the CSV, and returned a JSON representation of the CSV
     
@@ -136,13 +136,16 @@ That's it!  You now have a serverless app that will fire on a CSV file, process 
 
 ## Testing the Logic App
 
-Create a CSV like the [example](./example.csv) -- but change the email address to one that you own so you can verify.  I usually test by dropping a file in with something like [FileZilla Client](https://filezilla-project.org/) - but use any FTP client you want.
+Create a CSV like the [example](https://raw.githubusercontent.com/jeffhollan/lab-serverless-email/master/example.csv) -- but change the email address to one that you own so you can verify.  I usually test by dropping a file in with something like [FileZilla Client](https://filezilla-project.org/) - but use any FTP client you want.
 
 1. Get your FTP client ready to drop your CSV file in
 1. In the Logic App designer, click **Run**
     * This will poll every few seconds on the FTP server.  
     * **IMPORTANT NOTE** The FTP Server trigger works by adding new files based on the modified date/time.  FTP Server truncates seconds, so after dropping a file it can take up to a minute for the logic app to fire.  This way the logic app doesn't accidentally missed a file based on the truncated seconds.
+1. Copy your CSV file into the root directory of the FTP server
 1. Once the Logic App detects the file, you'll see the functions get called, the outputs generated, and the emails sent.
+
+![](./images/success.png)
 
 ## What's Next?
 
